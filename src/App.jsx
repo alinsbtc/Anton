@@ -4,10 +4,8 @@ import { Chatbot } from './chatbot/chatbot';
 const App = () => {
   return (
     <div className='App'> 
-    <Chatbot/>
+      <Chatbot/>
     </div>
-
-
   );
 };
 
