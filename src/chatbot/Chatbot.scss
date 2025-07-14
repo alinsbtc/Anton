@@ -60,7 +60,6 @@ $padding-vertical: 15px;
             gap: 15px;
             background-color: #fcfcfc;
 
-
             .chatbot-body_card-message {
                 display: flex;
                 gap: 10px;
@@ -85,46 +84,56 @@ $padding-vertical: 15px;
                 object-fit: cover;
             }
 
-            .chatbot-body_card-message .content {
+            .chatbot-body_msg-list {
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
-                max-width: 60%;
+                gap: 32px;
+
+                .chatbot-body_card-message .content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    max-width: 60%;
+                }
+
+                .chatbot-body_card-message .content .msg-item {
+                    padding: 10px 12px;
+                    background-color: #64626209;
+                    border-radius: 5px;
+                    font-size: 0.8em;
+                    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+                    width: fit-content;
+                    background-color: white;
+                }
+
+                .chatbot-body_card-message.msg-send {
+                    justify-content: flex-end;
+                }
+
+                .chatbot-body_card-message.msg-send .content {
+                    align-items: flex-end;
+                }
+
+                .chatbot-body_card-message.msg-send .avatar {
+                    display: none;
+                }
+
+                .chatbot-body_card-message.msg-send .content .msg-item {
+                    background-color: rgba(5, 5, 196, 0.904);
+                    color: white;
+                }
+
+                .chatbot-body_card-message.msg-thinking .avatar {
+                    display: none;
+                }
+
+                .chatbot-body_card-message.msg-thinking .content .msg-item {
+                    box-shadow: none;
+                    background-color: transparent;
+                    padding-left: 0;
+                    opacity: 0.5;
+                }
             }
-
-            .chatbot-body_card-message .content .msg-item {
-                padding: 10px 12px;
-                background-color: #64626209;
-                border-radius: 5px;
-                font-size: 0.8em;
-                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-                width: fit-content;
-                background-color: white;
-
-            }
-
-            .chatbot-body_card-message.msg-send {
-                justify-content: flex-end;
-            }
-
-            .chatbot-body_card-message.msg-send .content .msg-item {
-                background-color: rgba(5, 5, 196, 0.904);
-                color: white;
-            }
-
-            .chatbot-body_card-message.msg-thinking .avatar {
-                display: none;
-            }
-
-            .chatbot-body_card-message.msg-thinking .content .msg-item {
-                box-shadow: none;
-                background-color: transparent;
-                padding-left: 0;
-                opacity: 0.5;
-            }
-
-
-
         }
 
         .chatbot-input {
@@ -160,9 +169,7 @@ $padding-vertical: 15px;
                     outline: none;
                     background: none;
                     transform: rotate(45deg);
-      
                     border-radius: 50%;
-
                     display: flex;
                     align-items: center;
 
@@ -173,15 +180,12 @@ $padding-vertical: 15px;
                         transform: translateY(4px) translateX(-4px);
                         font-weight: bold;
                         font-size: 20px;
+
                         &:hover {
                             opacity: 1;
                         }
                     }
-
                 }
-
-
-
             }
 
             .chatbot-input_actions {
@@ -248,6 +252,27 @@ $padding-vertical: 15px;
             background-color: blue;
         }
     }
+}
 
 
+@keyframes revealLine {
+    0% {
+        opacity: 0;
+        max-height: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        max-height: 200px;
+        visibility: visible;
+    }
+}
+
+.chat-animate {
+  animation: revealLine 1.2s ease-out forwards; /* ⏱ kéo dài hơn chút */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
 }
