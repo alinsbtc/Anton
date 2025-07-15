@@ -6,15 +6,15 @@ import { callAgentApi } from "../apis/agentApis";
 import clsx from 'clsx';
 
 
-export const Chatbot = () => {
+export const Chatbot = React.memo(() => {
     const [isFormActive, setIsFormActive] = useState(false)
     const [input, setInput] = useState("")
     const [messages, setMessages] = useState([]);
     const bottomRef = useRef(null);
 
-    
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        console.log(messages)
     }, [messages]);
 
     const onActiveForm = () => {
@@ -70,8 +70,8 @@ export const Chatbot = () => {
                         <p>Anton</p>
                     </div>
                     <div className="chatbot-header_actions">
-                        <div className="refresh"><i class="bi bi-arrow-clockwise"></i></div>
-                        <div className="close"><i class="bi bi-x-lg"></i></div>
+                        <div className="refresh"><i className="bi bi-arrow-clockwise"></i></div>
+                        <div className="close"><i className="bi bi-x-lg"></i></div>
                     </div>
                 </div>
                 <div className="chatbot-body">
@@ -91,15 +91,16 @@ export const Chatbot = () => {
                                     <div className="content">
                                         {
                                             msg.content.map((content, i) => {
-                                                return <p className="msg-item chat-animate"    style={{ animationDelay: `${i * 1.4}s` }}>{content}</p>
+                                                return <p className="msg-item chat-animate" style={{ animationDelay: `${i * 1.4}s` }}>{content}</p>
                                             })
                                         }
+                                        <div ref={bottomRef} /> 
                                     </div>
                                 </div>
                             })
                         }
                     </div>
-                    <div ref={bottomRef} /> 
+                  
                 </div>
 
                 <div className="chatbot-input">
@@ -122,13 +123,13 @@ export const Chatbot = () => {
                                 }
                             }}
                         />
-                        <button id="send-button" onClick={onChat}><i class="bi bi-send"></i></button>
+                        <button id="send-button" onClick={onChat}><i className="bi bi-send"></i></button>
                     </div>
                     <div className="chatbot-input_actions">
-                        <button className="emoji-button" ><i class="bi bi-emoji-smile-fill"></i></button>
-                        <label class="attachment-button">
+                        <button className="emoji-button" ><i className="bi bi-emoji-smile-fill"></i></button>
+                        <label className="attachment-button">
                             <input type="file" hidden />
-                            <i class="bi bi-paperclip"></i>
+                            <i className="bi bi-paperclip"></i>
                         </label>
                     </div>
                 </div>
@@ -136,4 +137,4 @@ export const Chatbot = () => {
             <div className="chatbot-icon" onClick={onActiveForm}></div>
         </div>
     )
-}
+})

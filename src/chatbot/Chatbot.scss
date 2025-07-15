@@ -2,8 +2,8 @@ $padding-vertical: 15px;
 
 .Chatbot {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 40px;
+    right: 40px;
     display: flex;
     gap: 20px;
     align-items: flex-end;
@@ -16,12 +16,14 @@ $padding-vertical: 15px;
         border-radius: 4px;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
         overflow: hidden;
-
         flex-direction: column;
 
         .chatbot-header {
             width: 100%;
             height: 12%;
+            flex-basis: 12%;
+            flex-shrink: 1;
+            min-height: 12%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -104,6 +106,7 @@ $padding-vertical: 15px;
                     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
                     width: fit-content;
                     background-color: white;
+                    line-height: 1.68em;
                 }
 
                 .chatbot-body_card-message.msg-send {
@@ -244,12 +247,10 @@ $padding-vertical: 15px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: red;
         cursor: pointer;
         display: block;
-
+        border: 1px solid #ddd;
         &:hover {
-            background-color: blue;
         }
     }
 }
