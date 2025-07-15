@@ -2,15 +2,17 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import "./Chatbot.scss"
-import { callAgentApi } from "../apis/agentApis";
+import { callAgentApi } from "../../apis/agentApis";
 import clsx from 'clsx';
-
+import TypeMessage from "../TypeMessage/TypeMessage";
+import ChatRenderer from "../ChatRenderer/ChatRenderer";
 
 export const Chatbot = React.memo(() => {
     const [isFormActive, setIsFormActive] = useState(false)
     const [input, setInput] = useState("")
     const [messages, setMessages] = useState([]);
     const bottomRef = useRef(null);
+    const [visibleIndex, setVisibleIndex] = useState(0);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -22,36 +24,45 @@ export const Chatbot = React.memo(() => {
     }
     const addUserChat = (input) => {
         setMessages((prevMessages) => {
-            const isBotReplLastMsg = prevMessages.length > 0
-                ? prevMessages[prevMessages.length - 1].role === "bot"
-                : true;
+            if (prevMessages.length === 0) {
+                return [{ role: "user", content: [input] }];
+            }
 
-            if (!isBotReplLastMsg) {
-                // Nếu người dùng tiếp tục nói, thêm vào tin nhắn trước
-                const updated = [...prevMessages];
-                updated[updated.length - 1].content.push(input);
-                return updated;
+            const lastMessage = prevMessages[prevMessages.length - 1];
+
+            if (lastMessage.role === "user") {
+                // User tiếp tục chat, thêm vào đoạn chat cuối
+                const updatedMessages = [...prevMessages];
+                const updatedUserMessage = {
+                    ...lastMessage,
+                    content: [...lastMessage.content, input], // clone mảng content
+                };
+                updatedMessages[updatedMessages.length - 1] = updatedUserMessage;
+                return updatedMessages;
             } else {
-                // Nếu tin nhắn trước là bot hoặc chưa có tin nhắn, tạo mới
+                // Tạo tin nhắn mới cho user
                 return [...prevMessages, { role: "user", content: [input] }];
             }
         });
+    };
 
-    }
     const addChatbotReplied = (output) => {
         setMessages((prevMessages) => [
             ...prevMessages,
             {
                 role: "bot",
-                content: [...output],
+                content: [...output], // tạo bản mới để tránh dính tham chiếu
             },
         ]);
-    }
+    };
+
     const onChat = () => {
         addUserChat(input)
 
         callAgentApi(input).then(result => {
             const replied = result.data.agent_response.content
+
+            console.log(result)
             addChatbotReplied(replied)
         })
 
@@ -77,30 +88,9 @@ export const Chatbot = React.memo(() => {
                 <div className="chatbot-body">
                     <div className="chatbot-body_msg-list">
                         {/* Render Message */}
-                        {
-                            messages.map(msg => {
-                                return <div
-                                    className={clsx('chatbot-body_card-message', {
-                                        'msg-reply': (msg.role == "bot"),
-                                        'msg-send': (msg.role == "user")
-                                    })}
-                                >
-                                    <div className="avatar">
-                                        <img src="chatbot.jpg" />
-                                    </div>
-                                    <div className="content">
-                                        {
-                                            msg.content.map((content, i) => {
-                                                return <p className="msg-item chat-animate" style={{ animationDelay: `${i * 1.4}s` }}>{content}</p>
-                                            })
-                                        }
-                                        <div ref={bottomRef} /> 
-                                    </div>
-                                </div>
-                            })
-                        }
+                        <ChatRenderer messages={messages} />
                     </div>
-                  
+
                 </div>
 
                 <div className="chatbot-input">

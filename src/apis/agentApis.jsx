@@ -4,7 +4,7 @@
 export async function callAgentApi(payload) {
   console.log(payload)
   try {
-    const res = await fetch('https://fired-entire-excited-compatible.trycloudflare.com/api/agent', {
+    const res = await fetch('https://colony-deals-curtis-wma.trycloudflare.com/api/agent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
